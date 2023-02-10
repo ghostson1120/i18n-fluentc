@@ -1,4 +1,4 @@
-import { BackendModule, MultiReadCallback, ReadCallback, ResourceKey } from "i18next";
+import { BackendModule, MultiReadCallback, ReadCallback, ResourceKey, Services } from "i18next";
 
 export interface FluentcBackendOptions {
   /**
@@ -6,7 +6,7 @@ export interface FluentcBackendOptions {
    */
   environmentId: string;
   /**
-   * your FluentC apikey (only use this in development) to add / update translations
+   * your FluentC apikey (don't need to change)
    */
   apiKey?: string;
   /**
@@ -17,17 +17,6 @@ export interface FluentcBackendOptions {
    * allow cross domain requests
    */
   crossDomain?: boolean;
-  /**
-   * define a custom xhr function
-   * can be used to support XDomainRequest in IE 8 and 9
-   */
-  request?(
-    options: FluentcBackendOptions,
-    url: string,
-    payload: {} | string,
-    callback: RequestCallback
-  ): void;
-
   /**
    * can be used to reload resources in a specific
    * interval (useful in server environments)
@@ -42,31 +31,64 @@ interface RequestResponse {
   data: ResourceKey;
 }
 
-export default class I18NextHttpBackend
+type LoadCallback = (error: any, result: any) => void;
+
+declare class I18NextLocizeBackend
   implements BackendModule<FluentcBackendOptions>
 {
   static type: "backend";
-  constructor(services?: any, options?: FluentcBackendOptions);
+  constructor(
+    options?: FluentcBackendOptions,
+    callback?: LoadCallback
+  );
+  constructor(
+    services?: Services,
+    options?: FluentcBackendOptions,
+    callback?: LoadCallback
+  );
+
+  init(
+    options?: FluentcBackendOptions,
+    callback?: LoadCallback
+  ): void;
+  init(
+    services?: Services,
+    options?: FluentcBackendOptions,
+    callback?: LoadCallback
+  ): void;
   init(services?: any, options?: FluentcBackendOptions): void;
-  readMulti?(
-    languages: string[],
-    namespaces: string[],
-    callback: MultiReadCallback
-  ): void;
+
+  getLanguages(callback: LoadCallback): void;
+  getLanguages(): Promise<any>;
+  getOptions(callback: LoadCallback): void;
+  getOptions(): Promise<any>;
   read(language: string, namespace: string, callback: ReadCallback): void;
-  loadUrl(
-    url: string,
-    callback: ReadCallback,
-    languages?: string | string[],
-    namespaces?: string | string[]
+  loadUrl(url: string, options: any, callback: ReadCallback): void;
+  create(
+    languages: string | string[],
+    namespace: string,
+    key: string,
+    fallbackValue: string,
+    callback: LoadCallback,
+    options: any
   ): void;
-  create?(
+  create(
     languages: string[],
     namespace: string,
     key: string,
     fallbackValue: string
   ): void;
+  update(
+    languages: string | string[],
+    namespace: string,
+    key: string,
+    fallbackValue: string,
+    callback: LoadCallback,
+    options: any
+  ): void;
+  write(language: string, namespace: string): void;
   type: "backend";
-  services: any;
   options: FluentcBackendOptions;
 }
+
+export default I18NextLocizeBackend;
