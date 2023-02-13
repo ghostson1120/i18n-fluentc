@@ -1,4 +1,4 @@
-(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.i18nextHttpBackend = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
+(function(f){if(typeof exports==="object"&&typeof module!=="undefined"){module.exports=f()}else if(typeof define==="function"&&define.amd){define([],f)}else{var g;if(typeof window!=="undefined"){g=window}else if(typeof global!=="undefined"){g=global}else if(typeof self!=="undefined"){g=self}else{g=this}g.i18nextFluentcBackend = f()}})(function(){var define,module,exports;return (function(){function r(e,n,t){function o(i,f){if(!n[i]){if(!e[i]){var c="function"==typeof require&&require;if(!f&&c)return c(i,!0);if(u)return u(i,!0);var a=new Error("Cannot find module '"+i+"'");throw a.code="MODULE_NOT_FOUND",a}var p=n[i]={exports:{}};e[i][0].call(p.exports,function(r){var n=e[i][1][r];return o(n||r)},p,p.exports,r,e,n,t)}return n[i].exports}for(var u="function"==typeof require&&require,i=0;i<t.length;i++)o(t[i]);return o}return r})()({1:[function(require,module,exports){
 (function (global){(function (){
 var fetchApi
 if (typeof fetch === 'function') {
@@ -145,23 +145,29 @@ var Backend = function () {
           logger: console
         },
         logger = _ref2.logger;
-      var options = {};
       var isMissing = (0, _utils.isMissingOption)(this.options, ['environmentId']);
       if (isMissing) return callback(new Error(isMissing), false);
       this.loadUrl({}, (0, _query.getContent)(this.options.environmentId, language), function (err, ret, info) {
         if (!_this3.somethingLoaded) {
-          if (info && info.resourceNotExisting) {} else {
+          if (info && info.resourceNotExisting) {
+            logger.error('Environment not existing');
+          } else {
             _this3.somethingLoaded = true;
           }
         }
-        callback(err, ret);
+        var objectRet = {};
+        if (ret && ret.length) {
+          for (var i = 0; i < ret.length; i++) {
+            objectRet[ret[i].key] = ret[i].value;
+          }
+        }
+        callback(err, objectRet);
       });
     }
   }, {
     key: "loadUrl",
     value: function loadUrl(options, payload, callback) {
       var _this4 = this;
-      console.log(options, payload);
       options = (0, _utils.defaults)(options, this.options);
       if (typeof payload === 'function') {
         callback = payload;
@@ -195,7 +201,6 @@ var Backend = function () {
         try {
           ret = JSON.parse(res.data);
           ret = ret.data[payload.type].body;
-          console.log(ret);
         } catch (e) {
           parseErr = 'failed parsing ' + payload.type + ' to json';
         }
@@ -207,35 +212,6 @@ var Backend = function () {
         }
         callback(null, ret, {
           resourceNotExisting: resourceNotExisting
-        });
-      });
-    }
-  }, {
-    key: "create",
-    value: function create(languages, namespace, key, fallbackValue, callback) {
-      var _this5 = this;
-      if (!this.options.addPath) return;
-      if (typeof languages === 'string') languages = [languages];
-      var payload = this.options.parsePayload(namespace, key, fallbackValue);
-      var finished = 0;
-      var dataArray = [];
-      var resArray = [];
-      languages.forEach(function (lng) {
-        var addPath = _this5.options.addPath;
-        if (typeof _this5.options.addPath === 'function') {
-          addPath = _this5.options.addPath(lng, namespace);
-        }
-        var url = _this5.services.interpolator.interpolate(addPath, {
-          lng: lng,
-          ns: namespace
-        });
-        _this5.options.request(_this5.options, url, payload, function (data, res) {
-          finished += 1;
-          dataArray.push(data);
-          resArray.push(res);
-          if (finished === languages.length) {
-            if (typeof callback === 'function') callback(dataArray, resArray);
-          }
         });
       });
     }
@@ -424,7 +400,7 @@ function isMissingOption(obj, props) {
   return props.reduce(function (mem, p) {
     if (mem) return mem;
     if (!obj || !obj[p] || typeof obj[p] !== 'string' || !obj[p].toLowerCase() === p.toLowerCase()) {
-      var err = "i18next-locize-backend :: got \"".concat(obj[p], "\" in options for ").concat(p, " which is invalid.");
+      var err = "i18next-fluentc-backend :: got \"".concat(obj[p], "\" in options for ").concat(p, " which is invalid.");
       console.warn(err);
       return err;
     }

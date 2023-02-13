@@ -33,7 +33,7 @@ interface RequestResponse {
 
 type LoadCallback = (error: any, result: any) => void;
 
-declare class I18NextLocizeBackend
+declare class I18NextFluentcBackend
   implements BackendModule<FluentcBackendOptions>
 {
   static type: "backend";
@@ -58,37 +58,37 @@ declare class I18NextLocizeBackend
   ): void;
   init(services?: any, options?: FluentcBackendOptions): void;
 
-  getLanguages(callback: LoadCallback): void;
-  getLanguages(): Promise<any>;
-  getOptions(callback: LoadCallback): void;
-  getOptions(): Promise<any>;
+  // getLanguages(callback: LoadCallback): void;
+  // getLanguages(): Promise<any>;
+  // getOptions(callback: LoadCallback): void;
+  // getOptions(): Promise<any>;
   read(language: string, namespace: string, callback: ReadCallback): void;
   loadUrl(url: string, options: any, callback: ReadCallback): void;
-  create(
-    languages: string | string[],
-    namespace: string,
-    key: string,
-    fallbackValue: string,
-    callback: LoadCallback,
-    options: any
-  ): void;
-  create(
-    languages: string[],
-    namespace: string,
-    key: string,
-    fallbackValue: string
-  ): void;
-  update(
-    languages: string | string[],
-    namespace: string,
-    key: string,
-    fallbackValue: string,
-    callback: LoadCallback,
-    options: any
-  ): void;
-  write(language: string, namespace: string): void;
+  // create(
+  //   languages: string | string[],
+  //   namespace: string,
+  //   key: string,
+  //   fallbackValue: string,
+  //   callback: LoadCallback,
+  //   options: any
+  // ): void;
+  // create(
+  //   languages: string[],
+  //   namespace: string,
+  //   key: string,
+  //   fallbackValue: string
+  // ): void;
+  // update(
+  //   languages: string | string[],
+  //   namespace: string,
+  //   key: string,
+  //   fallbackValue: string,
+  //   callback: LoadCallback,
+  //   options: any
+  // ): void;
+  // write(language: string, namespace: string): void;
   type: "backend";
   options: FluentcBackendOptions;
 }
 
-export default I18NextLocizeBackend;
+export default I18NextFluentcBackend;

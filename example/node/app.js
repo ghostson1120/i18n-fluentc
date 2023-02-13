@@ -11,7 +11,7 @@ const HttpBackend = require('../../cjs')
 i18next.use(HttpBackend).init({
   lng: 'de',
   fallbackLng: 'en',
-  preload: ['en', 'de'],
+  preload: ['en', 'fr'],
   ns: ['translation'],
   defaultNS: 'translation',
   backend: {
@@ -19,6 +19,7 @@ i18next.use(HttpBackend).init({
   }
 }, (err, t) => {
   if (err) return console.error(err)
-  console.log(t('preview'))
-  console.log(t('preview', { lng: 'de' }))
+  console.log('[default]', t('nokey'))
+  console.log('[fr]', t('nokey', { lng: 'fr' }))
+  console.log('[it]', t('nokey', { lng: 'it' }))
 })

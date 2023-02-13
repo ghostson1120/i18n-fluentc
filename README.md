@@ -1,238 +1,314 @@
-# Introduction
-
 [![Actions](https://github.com/fluentc/i18next-fluentc-backend/workflows/node/badge.svg)](https://github.com/fluentc/i18next-fluentc-backend/actions?query=workflow%3Anode)
-[![Actions deno](https://github.com/fluentc/i18next-fluentc-backend/workflows/deno/badge.svg)](https://github.com/fluentc/i18next-fluentc-backend/actions?query=workflow%3Adeno)
 [![Travis](https://img.shields.io/travis/fluentc/i18next-fluentc-backend/master.svg?style=flat-square)](https://travis-ci.org/fluentc/i18next-fluentc-backend)
-[![npm version](https://img.shields.io/npm/v/i18next-http-backend.svg?style=flat-square)](https://www.npmjs.com/package/i18next-http-backend)
+[![npm version](https://img.shields.io/npm/v/i18next-fluentc-backend.svg?style=flat-square)](https://www.npmjs.com/package/i18next-fluentc-backend)
+[![David](https://img.shields.io/david/fluentc/i18next-fluentc-backend.svg?style=flat-square)](https://david-dm.org/fluentc/i18next-fluentc-backend)
 
-This is a simple i18next backend to be used in Node.js, in the browser and for Deno. It will load resources from a backend server using the XMLHttpRequest or the fetch API.
+This is an [i18next backend plugin](https://www.i18next.com/principles/plugins) to be used for [fluentc](http://fluentc.io) service. It will load resources from fluentc server using http fetch or xhr as fallback.
 
-Get a first idea on how it is used in [this i18next crash course video](https://youtu.be/SA_9i4TtxLQ?t=953).
+If you're not familiar with i18next and how i18next backend plugins works, please first have a look at the [i18next documentation](https://www.i18next.com/how-to/add-or-load-translations#load-using-a-backend-plugin).
 
-It's based on the deprecated [i18next-xhr-backend](https://github.com/i18next/i18next-xhr-backend) and can mostly be used as a drop-in replacement.
+It will allow you to save missing keys containing both **default value** and **context information** by calling:
 
-*[Why i18next-xhr-backend was deprecated?](https://github.com/i18next/i18next-xhr-backend/issues/348#issuecomment-663060275)*
+```js
+i18next.t(key, defaultValue, tDescription);
+i18next.t(key, { defaultValue, tDescription });
+```
 
-## Advice:
 
-If you don't like to manage your translation files manually or are simply looking for a [better management solution](https://locize.com), take a look at [i18next-locize-backend](https://github.com/locize/i18next-locize-backend). The i18next [backed plugin](https://www.i18next.com/overview/plugins-and-utils#backends) for 🌐 [locize](https://locize.com) ☁️.
-
-*To see [i18next-locize-backend](https://github.com/locize/i18next-locize-backend) in a working app example, check out:*
-
-- *[this react-tutorial](https://github.com/locize/react-tutorial) starting from [Step 2](https://github.com/locize/react-tutorial#step-2---use-the-locize-cdn)*
-- *[this guide](https://locize.com/blog/react-i18next/) starting from the step of [replacing i18next-http-backend with i18next-locize-backend](https://locize.com/blog/react-i18next/#how-look)*
-- *[this Angular blog post](https://locize.com/blog/angular-i18next/) [introducing i18next-locize-backend](https://locize.com/blog/angular-i18next/#how-look)*
-- *[the code integration part](https://www.youtube.com/watch?v=ds-yEEYP1Ks&t=423s) in this [YouTube video](https://www.youtube.com/watch?v=ds-yEEYP1Ks)*
-
-## Troubleshooting
+# Troubleshooting
 
 Make sure you set the `debug` option of i18next to `true`. This will maybe log more information in the developer console.
 
-**Seeing failed http requests, like 404?**
+**SaveMissing is not working**
 
-Are you using a [language detector](https://github.com/i18next/i18next-browser-languageDetector) plugin that detects region specific languages you are not providing? i.e. you provide `'en'` translations but you see a `'en-US'` request first?
+Did you wait 5-10 seconds before refreshing the fluentc UI? It may take a couple of seconds until the missing keys are sent and saved.
 
-This is because of the default `load` [option](https://www.i18next.com/overview/configuration-options) set to `'all'`.
+Per default only `localhost` is allowed to send missing keys ([or update missing keys](https://www.i18next.com/overview/configuration-options#missing-keys)) (to avoid using this feature accidentally [in production](https://docs.fluentc.io/guides-tips-and-tricks/going-production)). If you're not using `localhost` during development you will have to set the `allowedAddOrUpdateHosts: ['your.domain.tld']` for the [backend options](https://github.com/fluentc/i18next-fluentc-backend#backend-options).
 
-Try to set the `load` [option](https://www.i18next.com/overview/configuration-options) to `'languageOnly'`
+
+**Loading translations not working**
+
+Make sure the translations are published, either by having enabled auto publishing for your version or by [manually publishing](https://docs.fluentc.io/more/general-questions/how-to-manually-publish-a-specific-version) the version. Alternatively, you can publish via [CLI](https://github.com/fluentc/fluentc-cli#publish-version) or directly by consuming the [API](https://docs.fluentc.io/integration/api#publish-version).
+
+In case you're using the private publish mode, make sure you're using the correct api key and are setting the `private` option to `true`.
 
 ```javascript
-i18next.init({
-  load: 'languageOnly',
-  // other options
-})
+import i18next from "i18next";
+import Fluentc from "i18next-fluentc-backend";
+
+i18next.use(Fluentc).init({
+  backend: {
+    environmentId: "[ENVIRONMENTID]",
+    referenceLng: "en"
+  }
+});
+```
+
+
+**On server side: process is not exiting**
+
+In case you want to use i18next-fluentc-backend on server side for a short running process, you might want to set the `reloadInterval` option to `false`:
+
+```javascript
+{
+  reloadInterval: false,
+  environmentId: "[ENVIRONMENTID]",
+  referenceLng: 'en',
+}
 ```
 
 # Getting started
 
-Source can be loaded via [npm](https://www.npmjs.com/package/i18next-http-backend) or [downloaded](https://github.com/fluentc/i18next-fluentc-backend/blob/master/i18nextHttpBackend.min.js) from this repo.
-
-There's also the possibility to directly import it via a CDN like [jsdelivr](https://cdn.jsdelivr.net/npm/i18next-http-backend@1.3.1/i18nextHttpBackend.min.js) or [unpkg](https://unpkg.com/i18next-http-backend@1.3.1/i18nextHttpBackend.min.js) or similar.
+Source can be loaded via [npm](https://www.npmjs.com/package/i18next-fluentc-backend), `yarn`, `bower` or [downloaded](https://cdn.rawgit.com/fluentc/i18next-fluentc-backend/master/i18nextFluentcBackend.min.js) from this repo.
 
 ```bash
 # npm package
-$ npm install i18next-http-backend
+$ npm install i18next-fluentc-backend
+
+# yarn
+$ yarn add i18next-fluentc-backend
+
+# bower
+$ bower install i18next-fluentc-backend
 ```
 
 Wiring up:
 
 ```js
 import i18next from 'i18next';
-import HttpApi from 'i18next-http-backend';
+import Fluentc from 'i18next-fluentc-backend';
+// or
+const i18next = require('i18next');
+const Fluentc = require('i18next-fluentc-backend');
 
-i18next.use(HttpApi).init(i18nextOptions);
+i18next.use(Fluentc).init(i18nextOptions);
 ```
 
 for Deno:
 
 ```js
 import i18next from 'https://deno.land/x/i18next/index.js'
-import Backend from 'https://deno.land/x/i18next_http_backend/index.js'
+import Backend from 'https://deno.land/x/i18next_fluentc_backend/index.js'
 
 i18next.use(Backend).init(i18nextOptions);
 ```
 
-for plain browser:
-
-```html
-<script src="https://cdn.jsdelivr.net/npm/i18next-http-backend@1.3.1/i18nextHttpBackend.min.js"></script>
-<!-- an example can be found in example/jquery/index.html -->
-```
-
 - As with all modules you can either pass the constructor function (class) to the i18next.use or a concrete instance.
-- If you don't use a module loader it will be added to `window.i18nextHttpBackend`
+- If you don't use a module loader it will be added to `window.i18nextFluentcBackend`
 
 ## Backend Options
 
+**IMPORTANT** make sure you do not add your apiKey in the production build to avoid misuse by strangers
+
 ```js
 {
-  // path where resources get loaded from, or a function
-  // returning a path:
-  // function(lngs, namespaces) { return customPath; }
-  // the returned path will interpolate lng, ns if provided like giving a static path
-  // the function might return a promise
-  // returning falsy will abort the download
-  //
-  // If allowMultiLoading is false, lngs and namespaces will have only one element each,
-  // If allowMultiLoading is true, lngs and namespaces can have multiple elements
-  loadPath: '/locales/{{lng}}/{{ns}}.json',
+  // the id of your Fluentc environment
+  environmentId: "[ENVIRONMENTID]",
 
-  // path to post missing resources, or a function
-  // function(lng, namespace) { return customPath; }
-  // the returned path will interpolate lng, ns if provided like giving a static path
-  addPath: '/locales/add/{{lng}}/{{ns}}',
+  // add an api key if you want to send missing keys
+  apiKey: '[APIKEY]',
 
-  // your backend server supports multiloading
-  // /locales/resources.json?lng=de+en&ns=ns1+ns2
-  // Adapter is needed to enable MultiLoading https://github.com/i18next/i18next-multiload-backend-adapter
-  // Returned JSON structure in this case is
-  // {
-  //  lang : {
-  //   namespaceA: {},
-  //   namespaceB: {},
-  //   ...etc
-  //  }
-  // }
-  allowMultiLoading: false, // set loadPath: '/locales/resources.json?lng={{lng}}&ns={{ns}}' to adapt to multiLoading
+  // the reference language of your project
+  referenceLng: '[LNG]',
 
-  // parse data after it has been fetched
-  // in example use https://www.npmjs.com/package/json5
-  // here it removes the letter a from the json (bad idea)
-  parse: function(data) { return data.replace(/a/g, ''); },
+// optional event triggered on saved to backend
+  onSaved: (lng, ns) => { ... },
 
-  //parse data before it has been sent by addPath
-  parsePayload: function(namespace, key, fallbackValue) { return { key } },
-
-  // allow cross domain requests
-  crossDomain: false,
-
-  // allow credentials on cross domain requests
-  withCredentials: false,
-
-  // overrideMimeType sets request.overrideMimeType("application/json")
-  overrideMimeType: false,
-
-  // custom request headers sets request.setRequestHeader(key, value)
-  customHeaders: {
-    authorization: 'foo',
-    // ...
-  },
-  // can also be a function, that returns the headers
-  customHeaders: () => ({
-    authorization: 'foo',
-    // ...
-  }),
-
-  requestOptions: { // used for fetch, can also be a function (payload) => ({ method: 'GET' })
-    mode: 'cors',
-    credentials: 'same-origin',
-    cache: 'default'
-  }
-
-  // define a custom request function
-  // can be used to support XDomainRequest in IE 8 and 9
-  //
-  // 'options' will be this entire options object
-  // 'url' will be passed the value of 'loadPath'
-  // 'payload' will be a key:value object used when saving missing translations
-  // 'callback' is a function that takes two parameters, 'err' and 'res'.
-  //            'err' should be an error
-  //            'res' should be an object with a 'status' property and a 'data' property containing a stringified object instance beeing the key:value translation pairs for the
-  //            requested language and namespace, or null in case of an error.
-  request: function (options, url, payload, callback) {},
-
-  // adds parameters to resource URL. 'example.com' -> 'example.com?v=1.3.5'
-  queryStringParams: { v: '1.3.5' },
-
-  reloadInterval: false // can be used to reload resources in a specific interval (useful in server environments)
+  // can be used to reload resources in a specific interval (useful in server environments)
+  reloadInterval: typeof window !== 'undefined' ? false : 60 * 60 * 1000,
 }
 ```
+
+To load translations only `environmentId` needs to be filled. To use the **saveMissing** feature of i18next additional to the environmentId both `apiKey` and `referenceLng` have to be set.
 
 Options can be passed in:
 
 **preferred** - by setting options.backend in i18next.init:
 
 ```js
-import i18next from 'i18next';
-import HttpApi from 'i18next-http-backend';
+import i18next from "i18next";
+import Fluentc from "i18next-fluentc-backend";
 
-i18next.use(HttpApi).init({
-  backend: options,
+i18next.use(Fluentc).init({
+  backend: options
 });
 ```
 
 on construction:
 
 ```js
-import HttpApi from 'i18next-http-backend';
-const HttpApi = new HttpApi(null, options);
+import Fluentc from "i18next-fluentc-backend";
+const fluentc = new Fluentc(options);
 ```
 
 via calling init:
 
 ```js
-import HttpApi from 'i18next-http-backend';
-const HttpApi = new HttpApi();
-HttpApi.init(null, options);
+import Fluentc from "i18next-fluentc-backend";
+const fluentc = new Fluentc();
+fluentc.init(options);
+```
+
+## Additional API endpoints
+
+### backend.getLanguages
+
+Will return a list of all languages in your project including percentage of translations done per version.
+
+```js
+import Fluentc from "i18next-fluentc-backend";
+const fluentc = new Fluentc(options);
+
+fluentc.getLanguages((err, data) => {
+  /*
+  data is:
+
+  {
+    "en": {
+      "name": "English",
+      "nativeName": "English",
+      "isReferenceLanguage": true,
+      "translated": {
+        "latest": 1
+      }
+    },
+    "de": {
+      "name": "German",
+      "nativeName": "Deutsch",
+      "isReferenceLanguage": false,
+      "translated": {
+        "latest": 0.9
+      }
+    }
+  }
+  */
+});
+
+// or
+const data = await fluentc.getLanguages();
+
+// or
+i18next.services.backendConnector.backend.getLanguages(callback);
+
+// or
+const data = await i18next.services.backendConnector.backend.getLanguages();
+```
+
+### backend.getOptions
+
+Will return an object containing useful informations for the i18next init options.
+
+```js
+import Fluentc from "i18next-fluentc-backend";
+const fluentc = new Fluentc(options);
+
+fluentc.getOptions((err, data) => {
+  /*
+  data is:
+
+  {
+    fallbackLng: 'en',
+    referenceLng: 'en',
+    supportedLngs: ['en', 'de'],
+    load: 'languageOnly|all' // depending on your supportedLngs has locals having region like en-US
+  }
+  */
+});
+
+// or
+const data = await fluentc.getOptions();
+
+// or
+i18next.services.backendConnector.backend.getOptions(callback);
+
+// or
+const data = await i18next.services.backendConnector.backend.getOptions();
+```
+
+You can set a threshold for languages to be added to supportedLngs by setting translatedPercentageThreshold in backend options (eg: 1 = 100% translated, 0.9 = 90% translated).
+
+## SPECIAL - let the backend determine some options to improve loading
+
+You can load some information from the backend to eg. set supportedLngs for i18next just supporting languages you got in your fluentc environment.
+
+You will get i18next options for (same as above backend.getOptions):
+
+- fallbackLng
+- supportedLngs
+- load
+
+```js
+import i18next from "i18next";
+import Fluentc from "i18next-fluentc-backend";
+
+const fluentc = new Fluentc(
+  {
+    environmentId: "[environmentId]",
+    apiKey: "[APIKEY]",
+    // referenceLng -> not needed as will be loaded from API
+  },
+  (err, opts, lngs) => {
+    i18next.use(fluentc).init({ ...opts, ...yourOptions }); // yourOptions should not include backendOptions!
+  }
+);
+```
+
+### Special usage with react-i18next without using Suspense
+
+Use `setI18n` to pass in the i18next instance before initializing:
+
+```js
+import i18n from "i18next";
+import { initReactI18next, setI18n } from "react-i18next";
+import FluentcBackend from "i18next-fluentc-backend";
+
+const backendOptions = {
+  environmentId: "1d0aa5aa-4660-4154-b6d9-907dbef10bb3"
+};
+
+const yourOptions = {
+  debug: true,
+  interpolation: {
+    escapeValue: false
+  },
+  react: {
+    useSuspense: false
+  }
+};
+
+// this is only used if not using suspense
+i18n.options.react = yourOptions.react;
+setI18n(i18n);
+
+const backend = new FluentcBackend(backendOptions, (err, opts) => {
+  if (err) return console.error(err);
+  i18n
+    .use(backend)
+    // .use(initReactI18next) // keep this if using suspense
+    // yourOptions should not include backendOptions!
+    .init({ ...opts, ...yourOptions }, (err, t) => {
+      if (err) return console.error(err);
+    });
+});
+
+export default i18n;
 ```
 
 ## TypeScript
 
-To properly type the backend options, you can import the `HttpBackendOptions` interface and use it as a generic type parameter to the i18next's `init` method, e.g.:
+To properly type the backend options, you can import the `FluentcBackendOptions` interface and use it as a generic type parameter to the i18next's `init` method, e.g.:
 
 ```ts
 import i18n from 'i18next'
-import HttpBackend, { HttpBackendOptions } from 'i18next-http-backend'
+import FluentcBackend, { FluentcBackendOptions } from 'i18next-fluentc-backend'
 
 i18n
-  .use(HttpBackend)
-  .init<HttpBackendOptions>({
+  .use(FluentcBackend)
+  .init<FluentcBackendOptions>({
     backend: {
-      // http backend options
+      // fluentc backend options
     },
 
     // other i18next options
   })
 ```
-
----
-
-<h3 align="center">Gold Sponsors</h3>
-
-<p align="center">
-  <a href="https://locize.com/" target="_blank">
-    <img src="https://raw.githubusercontent.com/i18next/i18next/master/assets/locize_sponsor_240.gif" width="240px">
-  </a>
-</p>
-
----
-
-**From the creators of i18next: localization as a service - locize.com**
-
-A translation management system built around the i18next ecosystem - [locize.com](https://locize.com).
-
-![locize](https://locize.com/img/ads/github_locize.png)
-
-With using [locize](http://locize.com/?utm_source=react_i18next_readme&utm_medium=github) you directly support the future of i18next.
-
----
