@@ -1,14 +1,17 @@
 <template>
   <div class="hello">
-    <h1>{{ $t("welcome") }}</h1>
+    <h1>{{ $t("preview") }}</h1>
     <p>
-      <TransComponent i18nKey="descr">
+      <TransComponent i18nKey="translate">
         <a href="https://cli.vuejs.org" target="_blank" rel="noopener" /><i>👋</i>
       </TransComponent>
     </p>
     <div>
       <div>
-        <span v-t="{key:'end'}" /> <i v-t="'end'" />
+        <span v-t="{key:'apikey-first'}" />
+      </div>
+      <div>
+        <span v-t="{key:'nokey'}" />
       </div>
     </div>
     <hr />

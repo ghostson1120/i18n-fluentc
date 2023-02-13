@@ -1,7 +1,7 @@
 import { createI18n } from './vue-i18next'
 import i18nextMod from 'i18next'
 // import i18nextFluentcBackend from 'i18next-fluentc-backend'
-import i18nextFluentcBackend from '../../../cjs'
+import i18nextFluentcBackend from '../../../esm'
 import LanguageDetector from 'i18next-browser-languagedetector'
 
 export const i18next = i18nextMod
