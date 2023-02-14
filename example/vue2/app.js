@@ -1,11 +1,11 @@
 /* eslint-disable no-undef, new-cap */
 
-i18next.use(i18nextHttpBackend).init({
+i18next.use(i18nextFluentcBackend).init({
   debug: true,
   lng: 'en',
   fallbackLng: 'en',
   backend: {
-    loadPath: './locales/{{lng}}/{{ns}}.json'
+    environmentId: '24dcb33e-f567-44c5-95d7-870e54a3c3ae'
   }
 }, () => {
   const i18n = new VueI18next(i18next);
@@ -16,12 +16,12 @@ i18next.use(i18nextHttpBackend).init({
       <div>
           <h3>Translation</h3>
           <language-changer></language-changer>
-          <p>$t: {{ $t("message.hello") }}</p>
+          <p>$t: {{ $t("apikey-first") }}</p>
       </div>
       <div>
         <h3>Interpolation</h3>
         <i18next path="term" tag="label" for="tos">
-          <a href="#" target="_blank">{{ $t("tos") }}</a>
+          <a href="#" target="_blank">{{ $t("nokey") }}</a>
           <strong>a</strong>
         </i18next>
       </div>
@@ -32,10 +32,6 @@ i18next.use(i18nextHttpBackend).init({
       <div>
         <h3>Inline translations</h3>
         <inline-translations></inline-translations>
-      </div>
-      <div>
-        <h3>Directive</h3>
-        <with-directive></with-directive>
       </div>
     </div>`,
   });
@@ -55,12 +51,9 @@ i18next.use(i18nextHttpBackend).init({
   });
 
   Vue.component('key-prefix', {
-    i18nOptions: {
-      keyPrefix: 'message',
-    },
     template: `
       <div>
-        <p>{{$t('hello')}}</p>
+        <p>{{$t('preview')}}</p>
       </div>`,
   });
 
@@ -79,11 +72,6 @@ i18next.use(i18nextHttpBackend).init({
       <div>
         {{$t('welcome')}}
       </div>`,
-  });
-
-  Vue.component('with-directive', {
-    template: `
-      <div v-t="{path:'message.hello'}"></div>`,
   });
 
   new Vue({
