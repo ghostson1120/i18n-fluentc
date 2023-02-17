@@ -6,22 +6,21 @@ import { Application } from 'https://deno.land/x/abc/mod.ts'
 
 // i18next in action...
 import i18next from 'https://deno.land/x/i18next/index.js'
-// import i18next from 'https://raw.githubusercontent.com/i18next/i18next/master/src/index.js'
-// import i18next from 'https://cdn.jsdelivr.net/gh/i18next/i18next/src/index.js'
-import HttpBackend from 'https://deno.land/x/i18next_http_backend/index.js'
-// import HttpBackend from 'https://raw.githubusercontent.com/fluentc/i18next-fluentc-backend/master/index.js'
-// import HttpBackend from 'https://cdn.jsdelivr.net/gh/fluentc/i18next-fluentc-backend/index.js'
-i18next.use(HttpBackend).init({
-  lng: 'en',
+// import HttpBackend from 'https://deno.land/x/i18next_http_backend/index.js'
+import FluentcBackend from '../../esm/index.js'
+i18next.use(FluentcBackend).init({
+  lng: 'de',
   fallbackLng: 'en',
-  preload: ['en', 'de'],
+  preload: ['en', 'fr'],
   ns: ['translation'],
   defaultNS: 'translation',
   backend: {
-    loadPath: 'http://localhost:8080/locales/{{lng}}/{{ns}}.json'
+    environmentId: '7f6de052-b94b-42e2-ba85-34475e2f7975'
   }
 }, (err: Error, t: (...params: any[]) => string) => {
   if (err) return console.error(err)
-  console.log(t('welcome'))
-  console.log(t('welcome', { lng: 'de' }))
+
+  console.log('[default]', t('nokey'))
+  console.log('[fr]', t('nokey', { lng: 'fr' }))
+  console.log('[it]', t('nokey', { lng: 'it' }))
 })
