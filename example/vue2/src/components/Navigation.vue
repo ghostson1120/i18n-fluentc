@@ -70,7 +70,7 @@
         <v-btn rounded outlined text @click="$vuetify.goTo('#contact')">
           <span class="mr-2">{{$t('contact-us')}}</span>
         </v-btn>        
-        <select class="lang-switcher ml-2" @change="switchLanguage">
+        <select class="lang-switcher ml-2" @change="switchLanguage" :value="lang">
           <option v-for="lang in languages" :key="lang.code" :value="lang.code">{{ lang.label }}</option>
         </select>
       </div>
@@ -126,6 +126,9 @@ export default {
         ["mdi-download-box-outline", this.$t("download"), "#download"],
         ["mdi-email-outline", this.$t("contact-us"), "#contact"],
       ]
+    },
+    lang () {
+      return this.$i18next.language;
     }
   },
   methods: {
