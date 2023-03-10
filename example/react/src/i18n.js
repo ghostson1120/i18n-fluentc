@@ -16,7 +16,7 @@ i18n
     debug: true,
     fallbackLng: 'en',
     backend: {
-        environmentId: 'a360e18d-e04b-4110-a50e-26d1a3a873ef'
+      environmentId: 'a360e18d-e04b-4110-a50e-26d1a3a873ef'
     }
   });
 
