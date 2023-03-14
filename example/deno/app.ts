@@ -1,7 +1,6 @@
 // serve translations
 import { Application } from 'https://deno.land/x/abc/mod.ts'
 (new Application())
-  .static('/locales', './locales')
   .start({ port: 8080 })
 
 // i18next in action...

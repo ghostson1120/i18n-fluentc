@@ -58,8 +58,8 @@ declare class I18NextFluentcBackend
   ): void;
   init(services?: any, options?: FluentcBackendOptions): void;
 
-  // getLanguages(callback: LoadCallback): void;
-  // getLanguages(): Promise<any>;
+  getLanguages(callback: LoadCallback): void;
+  getLanguages(): Promise<any>;
   // getOptions(callback: LoadCallback): void;
   // getOptions(): Promise<any>;
   read(language: string, namespace: string, callback: ReadCallback): void;
