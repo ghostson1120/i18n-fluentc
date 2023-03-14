@@ -1,14 +1,12 @@
 // serve translations
 const express = require('express')
 const app = express()
-app.use('/locales', express.static('locales'))
 app.listen(8080)
 
 // i18next in action...
 const i18next = require('i18next')
-// const HttpBackend = require('i18next-http-backend')
-const HttpBackend = require('../../cjs')
-i18next.use(HttpBackend).init({
+const FluentcBackend = require('../../cjs')
+i18next.use(FluentcBackend).init({
   lng: 'de',
   fallbackLng: 'en',
   preload: ['en', 'fr'],
@@ -22,4 +20,6 @@ i18next.use(HttpBackend).init({
   console.log('[default]', t('nokey'))
   console.log('[fr]', t('nokey', { lng: 'fr' }))
   console.log('[it]', t('nokey', { lng: 'it' }))
+
+  i18next.
 })
