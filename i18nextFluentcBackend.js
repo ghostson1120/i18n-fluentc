@@ -139,15 +139,7 @@ var Backend = function () {
     }
   }, {
     key: "getLanguages",
-    value: function (_getLanguages) {
-      function getLanguages(_x) {
-        return _getLanguages.apply(this, arguments);
-      }
-      getLanguages.toString = function () {
-        return _getLanguages.toString();
-      };
-      return getLanguages;
-    }(function (callback) {
+    value: function getLanguages(callback) {
       var _this3 = this;
       var deferred;
       if (!callback) {
@@ -160,7 +152,7 @@ var Backend = function () {
       this.getLanguagesCalls = this.getLanguagesCalls || [];
       this.getLanguagesCalls.push(callback);
       if (this.getLanguagesCalls.length > 1) return;
-      this.loadUrl({}, getLanguages(), function (err, ret, info) {
+      this.loadUrl({}, (0, _query.getAvailableLanguages)(), function (err, ret, info) {
         if (!_this3.somethingLoaded && info && info.resourceNotExisting) {
           var e = new Error("Fluentc environment ".concat(_this3.options.environmentId, " does not exist!"));
           var _clbs = _this3.getLanguagesCalls;
@@ -178,7 +170,7 @@ var Backend = function () {
         });
       });
       return deferred;
-    })
+    }
   }, {
     key: "read",
     value: function read(language, namespace, callback) {
@@ -270,7 +262,7 @@ module.exports = exports.default;
 Object.defineProperty(exports, "__esModule", {
   value: true
 });
-exports.getLanguages = exports.getContent = void 0;
+exports.getContent = exports.getAvailableLanguages = void 0;
 var _graphqlTag = _interopRequireDefault(require("graphql-tag"));
 var _graphql = require("graphql");
 var _templateObject, _templateObject2;
@@ -284,14 +276,14 @@ var getContent = function getContent(apiKey, language) {
   };
 };
 exports.getContent = getContent;
-var getLanguages = function getLanguages() {
+var getAvailableLanguages = function getAvailableLanguages() {
   var query = (0, _graphqlTag.default)(_templateObject2 || (_templateObject2 = _taggedTemplateLiteral(["\n    query{\n      getAvailableLanguages {\n        body{\n          label\n          code\n          localLabel\n        }\n      }\n    }\n  "])));
   return {
     query: (0, _graphql.print)(query),
     type: 'getAvailableLanguages'
   };
 };
-exports.getLanguages = getLanguages;
+exports.getAvailableLanguages = getAvailableLanguages;
 },{"graphql":21,"graphql-tag":8}],4:[function(require,module,exports){
 (function (global){(function (){
 "use strict";
