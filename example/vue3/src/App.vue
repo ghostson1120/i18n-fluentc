@@ -2,7 +2,7 @@
 	<main>
 		<div class="language-switcher">
 			<select class="lang-switcher ml-2" @change="switchLanguage" :value="lang">
-				<option v-for="lang in languages" :key="lang.code" :value="lang.code">{{ lang.label }}</option>
+				<option v-for="lang in languages" :key="lang.code" :value="lang.code">{{ lang.localLabel }}</option>
 			</select>
 		</div>
 		<div class="content">
@@ -29,7 +29,7 @@ export default {
 		const { i18next } = useTranslation();
 		const selectedUser = ref(null);
 		const activeUsers = USER_DATA;
-		const languages = LANGUAGES
+		const languages = ref(LANGUAGES);
 
 		function selectUser(uid) {
 			selectedUser.value = activeUsers.find((usr) => usr.id === uid);
@@ -42,6 +42,15 @@ export default {
 		const lang = computed(function() {
 			return i18next.language;
 		});
+
+		const loadLanguages = async () => {
+			const langs = await i18next.services.backendConnector.backend.getLanguages();
+			console.log('langs', langs);
+			if (!langs || !langs.length) return;
+			languages.value = langs;
+		}
+
+		loadLanguages();
 
 		return { selectUser, switchLanguage, selectedUser, activeUsers, languages, lang };
 	},

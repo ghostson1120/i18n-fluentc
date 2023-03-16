@@ -116,9 +116,43 @@ var Backend = function () {
       });
     }
   }, {
+    key: "getLanguages",
+    value: function getLanguages(callback) {
+      var _this3 = this;
+      var deferred;
+      if (!callback) {
+        deferred = (0, _utils.defer)();
+        callback = function callback(err, ret) {
+          if (err) return deferred.reject(err);
+          deferred.resolve(ret);
+        };
+      }
+      this.getLanguagesCalls = this.getLanguagesCalls || [];
+      this.getLanguagesCalls.push(callback);
+      if (this.getLanguagesCalls.length > 1) return;
+      this.loadUrl({}, (0, _query.getAvailableLanguages)(), function (err, ret, info) {
+        if (!_this3.somethingLoaded && info && info.resourceNotExisting) {
+          var e = new Error("Fluentc environment ".concat(_this3.options.environmentId, " does not exist!"));
+          var _clbs = _this3.getLanguagesCalls;
+          _this3.getLanguagesCalls = [];
+          return _clbs.forEach(function (clb) {
+            return clb(e);
+          });
+        }
+        console.log(ret);
+        _this3.somethingLoaded = true;
+        var clbs = _this3.getLanguagesCalls;
+        _this3.getLanguagesCalls = [];
+        clbs.forEach(function (clb) {
+          return clb(err, ret);
+        });
+      });
+      return deferred;
+    }
+  }, {
     key: "read",
     value: function read(language, namespace, callback) {
-      var _this3 = this;
+      var _this4 = this;
       var _ref2 = this.services || {
           logger: console
         },
@@ -126,11 +160,11 @@ var Backend = function () {
       var isMissing = (0, _utils.isMissingOption)(this.options, ['environmentId']);
       if (isMissing) return callback(new Error(isMissing), false);
       this.loadUrl({}, (0, _query.getContent)(this.options.environmentId, language), function (err, ret, info) {
-        if (!_this3.somethingLoaded) {
+        if (!_this4.somethingLoaded) {
           if (info && info.resourceNotExisting) {
             logger.error('Environment not existing');
           } else {
-            _this3.somethingLoaded = true;
+            _this4.somethingLoaded = true;
           }
         }
         var objectRet = {};
@@ -145,7 +179,7 @@ var Backend = function () {
   }, {
     key: "loadUrl",
     value: function loadUrl(options, payload, callback) {
-      var _this4 = this;
+      var _this5 = this;
       options = (0, _utils.defaults)(options, this.options);
       if (typeof payload === 'function') {
         callback = payload;
@@ -183,7 +217,7 @@ var Backend = function () {
           parseErr = 'failed parsing ' + payload.type + ' to json';
         }
         if (parseErr) return callback(parseErr, false);
-        if (_this4.options.failLoadingOnEmptyJSON && !Object.keys(ret).length) {
+        if (_this5.options.failLoadingOnEmptyJSON && !Object.keys(ret).length) {
           return callback('loaded result empty for ' + payload.type, false, {
             resourceNotExisting: resourceNotExisting
           });

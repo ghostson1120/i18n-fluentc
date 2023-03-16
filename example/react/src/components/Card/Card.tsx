@@ -22,7 +22,7 @@ const Card: React.FC<Props> = (props) => {
       <div className="card--info">
         <div className="card--location--data">
           <img
-            src="https://cdn.icon-icons.com/icons2/2073/PNG/512/location_map_twitter_icon_127126.png"
+            src="https://i.postimg.cc/gjzjBz1h/location-map.png"
             className="card--pin"
             alt="pin"
           />

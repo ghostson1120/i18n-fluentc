@@ -32,8 +32,5 @@ export const USER_DATA = [
 ];
 
 export const LANGUAGES = [
-  { code: 'en', label: 'English' },
-  { code: 'es', label: 'Spanish' },
-  { code: 'uk', label: 'Ukrainian' },
-  { code: 'ja', label: 'Japanese' },
+  { code: 'en', label: 'English', localLabel: 'English' },
 ]
