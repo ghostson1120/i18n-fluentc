@@ -71,7 +71,7 @@
           <span class="mr-2">{{$t('contact-us')}}</span>
         </v-btn>        
         <select class="lang-switcher ml-2" @change="switchLanguage" :value="lang">
-          <option v-for="lang in languages" :key="lang.code" :value="lang.code">{{ lang.label }}</option>
+          <option v-for="lang in languages" :key="lang.code" :value="lang.code">{{ lang.localLabel || lang.label }}</option>
         </select>
       </div>
     </v-app-bar>
@@ -108,10 +108,7 @@ export default {
     drawer: null,
     isXs: false,
     languages: [
-      { code: 'en', label: 'English' },
-      { code: 'es', label: 'Spanish' },
-      { code: 'uk', label: 'Ukrainian' },
-      { code: 'ja', label: 'Japanese' },
+      { code: 'en', label: 'English', localLabel: 'English' },
     ]
   }),
   props: {
@@ -152,6 +149,15 @@ export default {
   mounted() {
     this.onResize();
     window.addEventListener("resize", this.onResize, { passive: true });
+
+    const getLanguages = async () => {
+      const langs = await this.$i18next.services.backendConnector.backend.getLanguages();
+      if (langs && langs.length) {
+        this.languages = langs;
+      }
+    }
+
+    getLanguages();
   },
 };
 </script>
