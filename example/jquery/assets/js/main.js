@@ -115,9 +115,14 @@ $(function() {
         backend: {
             environmentId: '7f6de052-b94b-42e2-ba85-34475e2f7975'
         }
-    }, function(err, t) {
+    }, async function(err, t) {
         jqueryI18next.init(i18next, $);
         $('body').localize();
+
+        const langs = await i18next.services.backendConnector.backend.getLanguages();
+        if (langs && langs.length) {
+            $('#lang-switch').html(langs.map(lang => `<option value="${lang.code}">${lang.localLabel}</option>`).join(''));
+        }
     });
 
     $('#lang-switch').on('change', function(e) {
