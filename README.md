@@ -1,9 +1,8 @@
 [![Actions](https://github.com/fluentc/i18next-fluentc-backend/workflows/node/badge.svg)](https://github.com/fluentc/i18next-fluentc-backend/actions?query=workflow%3Anode)
 [![Travis](https://img.shields.io/travis/fluentc/i18next-fluentc-backend/master.svg?style=flat-square)](https://travis-ci.org/fluentc/i18next-fluentc-backend)
 [![npm version](https://img.shields.io/npm/v/i18next-fluentc-backend.svg?style=flat-square)](https://www.npmjs.com/package/i18next-fluentc-backend)
-[![David](https://img.shields.io/david/fluentc/i18next-fluentc-backend.svg?style=flat-square)](https://david-dm.org/fluentc/i18next-fluentc-backend)
 
-This is an [i18next backend plugin](https://www.i18next.com/principles/plugins) to be used for [fluentc](http://fluentc.io) service. It will load resources from fluentc server using http fetch or xhr as fallback.
+This is an [i18next backend plugin](https://www.i18next.com/principles/plugins) to be used for [fluentc](https://fluentc.io) service.
 
 If you're not familiar with i18next and how i18next backend plugins works, please first have a look at the [i18next documentation](https://www.i18next.com/how-to/add-or-load-translations#load-using-a-backend-plugin).
 
@@ -14,23 +13,29 @@ i18next.t(key, defaultValue, tDescription);
 i18next.t(key, { defaultValue, tDescription });
 ```
 
+# Obtaining the environmentId from the [dashboard](https://dashboard.fluentc.io)
+To use this fluentc-i18next-backend, it's necessary to retrieve the environmentId associated with your project.
+
+Follow these steps:
+
+- Log in to your account on the [dashboard](https://dashboard.fluentc.io).
+- Navigate to the Applications page.
+- Select the environment that you wish to use with this module.
+- Locate the environmentId displayed within the environment's details section.
+- Click on the copy icon to copy the environmentId to your clipboard.
+
+Once you have obtained the environmentId, you can use it with fluentc-i18next-backend to interact with your project.
+
 
 # Troubleshooting
 
 Make sure you set the `debug` option of i18next to `true`. This will maybe log more information in the developer console.
 
-**SaveMissing is not working**
-
-Did you wait 5-10 seconds before refreshing the fluentc UI? It may take a couple of seconds until the missing keys are sent and saved.
-
-Per default only `localhost` is allowed to send missing keys ([or update missing keys](https://www.i18next.com/overview/configuration-options#missing-keys)) (to avoid using this feature accidentally [in production](https://docs.fluentc.io/guides-tips-and-tricks/going-production)). If you're not using `localhost` during development you will have to set the `allowedAddOrUpdateHosts: ['your.domain.tld']` for the [backend options](https://github.com/fluentc/i18next-fluentc-backend#backend-options).
-
 
 **Loading translations not working**
 
-Make sure the translations are published, either by having enabled auto publishing for your version or by [manually publishing](https://docs.fluentc.io/more/general-questions/how-to-manually-publish-a-specific-version) the version. Alternatively, you can publish via [CLI](https://github.com/fluentc/fluentc-cli#publish-version) or directly by consuming the [API](https://docs.fluentc.io/integration/api#publish-version).
+Make sure you're using the correct environmentId.
 
-In case you're using the private publish mode, make sure you're using the correct api key and are setting the `private` option to `true`.
 
 ```javascript
 import i18next from "i18next";
@@ -44,18 +49,6 @@ i18next.use(Fluentc).init({
 });
 ```
 
-
-**On server side: process is not exiting**
-
-In case you want to use i18next-fluentc-backend on server side for a short running process, you might want to set the `reloadInterval` option to `false`:
-
-```javascript
-{
-  reloadInterval: false,
-  environmentId: "[ENVIRONMENTID]",
-  referenceLng: 'en',
-}
-```
 
 # Getting started
 
@@ -105,21 +98,15 @@ i18next.use(Backend).init(i18nextOptions);
   // the id of your Fluentc environment
   environmentId: "[ENVIRONMENTID]",
 
-  // add an api key if you want to send missing keys
-  apiKey: '[APIKEY]',
-
   // the reference language of your project
   referenceLng: '[LNG]',
-
-// optional event triggered on saved to backend
-  onSaved: (lng, ns) => { ... },
 
   // can be used to reload resources in a specific interval (useful in server environments)
   reloadInterval: typeof window !== 'undefined' ? false : 60 * 60 * 1000,
 }
 ```
 
-To load translations only `environmentId` needs to be filled. To use the **saveMissing** feature of i18next additional to the environmentId both `apiKey` and `referenceLng` have to be set.
+To load translations only `environmentId` needs to be filled.
 
 Options can be passed in:
 
@@ -153,7 +140,7 @@ fluentc.init(options);
 
 ### backend.getLanguages
 
-Will return a list of all languages in your project including percentage of translations done per version.
+Will return a list of all languages in your environment. Languages are available in English and in native language.
 
 ```js
 import Fluentc from "i18next-fluentc-backend";
@@ -163,24 +150,23 @@ fluentc.getLanguages((err, data) => {
   /*
   data is:
 
-  {
-    "en": {
-      "name": "English",
-      "nativeName": "English",
-      "isReferenceLanguage": true,
-      "translated": {
-        "latest": 1
-      }
+  [
+    {
+      "label": "Afrikaans",
+      "code": "af",
+      "localLabel": "Afrikaans"
     },
-    "de": {
-      "name": "German",
-      "nativeName": "Deutsch",
-      "isReferenceLanguage": false,
-      "translated": {
-        "latest": 0.9
-      }
+    {
+      "label": "Spanish",
+      "code": "es",
+      "localLabel": "Español"
     }
-  }
+    {
+      "label": "Japanese",
+      "code": "ja",
+      "localLabel": "日本語"
+    }
+  ]
   */
 });
 
@@ -194,38 +180,6 @@ i18next.services.backendConnector.backend.getLanguages(callback);
 const data = await i18next.services.backendConnector.backend.getLanguages();
 ```
 
-### backend.getOptions
-
-Will return an object containing useful informations for the i18next init options.
-
-```js
-import Fluentc from "i18next-fluentc-backend";
-const fluentc = new Fluentc(options);
-
-fluentc.getOptions((err, data) => {
-  /*
-  data is:
-
-  {
-    fallbackLng: 'en',
-    referenceLng: 'en',
-    supportedLngs: ['en', 'de'],
-    load: 'languageOnly|all' // depending on your supportedLngs has locals having region like en-US
-  }
-  */
-});
-
-// or
-const data = await fluentc.getOptions();
-
-// or
-i18next.services.backendConnector.backend.getOptions(callback);
-
-// or
-const data = await i18next.services.backendConnector.backend.getOptions();
-```
-
-You can set a threshold for languages to be added to supportedLngs by setting translatedPercentageThreshold in backend options (eg: 1 = 100% translated, 0.9 = 90% translated).
 
 ## SPECIAL - let the backend determine some options to improve loading
 
@@ -312,3 +266,9 @@ i18n
     // other i18next options
   })
 ```
+
+<p align="center">
+  <a href="https://fluentc.io/" target="_blank">
+    <img src="https://i.postimg.cc/9MTyH8zy/logo.png" width="240px">
+  </a>
+</p>
