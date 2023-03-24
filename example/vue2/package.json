@@ -12,6 +12,7 @@
         "firebase": "^7.24.0",
         "i18next": "^22.4.10",
         "i18next-browser-languagedetector": "^7.0.1",
+        "i18next-fluentc-backend": "^1.0.0",
         "i18next-vue": "^1.1.0",
         "vue": "^2.6.12",
         "vuetify": "^2.4.2"
