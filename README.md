@@ -7,11 +7,14 @@ This is an [i18next backend plugin](https://www.i18next.com/principles/plugins) 
 If you're not familiar with i18next and how i18next backend plugins works, please first have a look at the [i18next documentation](https://www.i18next.com/how-to/add-or-load-translations#load-using-a-backend-plugin).
 
 <div align="center">
-  <a href="https://dashboard.fluentc.io/" target="_blank" style="margin-right: 30px;">
-    <img src="https://i.postimg.cc/9MTyH8zy/logo.png" width="240px">
+  <a href="https://dashboard.fluentc.io/" target="_blank">
+    <img src="https://i.postimg.cc/7PnyZd13/fluentc-logo.png" height="60px">
   </a>
+  <a>
+    <img src="https://i.postimg.cc/FRJjNwY3/plus.png" height="60px">
+  </a>  
   <a href="https://www.i18next.com/" target="_blank">
-    <img src="https://i.postimg.cc/TPHgvt1g/i18next-logo.webp" width="240px">
+    <img src="https://i.postimg.cc/fTygQr8T/i18next-logo.png" height="60px">
   </a>
 </div>
 
