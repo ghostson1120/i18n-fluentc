@@ -5,7 +5,7 @@
       app
       temporary
       dark
-      src="@/assets/img/bgDrawer.jpg"
+      src="https://i.postimg.cc/qRpcDpMH/bgDrawer.jpg"
     >
       <v-list>
         <v-list-item>
