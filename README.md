@@ -10,9 +10,7 @@ If you're not familiar with i18next and how i18next backend plugins works, pleas
   <a href="https://dashboard.fluentc.io/" target="_blank">
     <img src="https://i.postimg.cc/7PnyZd13/fluentc-logo.png" height="60px">
   </a>
-  <a>
-    <img src="https://i.postimg.cc/FRJjNwY3/plus.png" height="60px">
-  </a>  
+  <img src="https://i.postimg.cc/Cdy09BWb/plus.png" height="60px">
   <a href="https://www.i18next.com/" target="_blank">
     <img src="https://i.postimg.cc/fTygQr8T/i18next-logo.png" height="60px">
   </a>
