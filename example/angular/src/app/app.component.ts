@@ -8,7 +8,7 @@ import { I18NEXT_SERVICE, ITranslationService } from 'angular-i18next';
 })
 export class AppComponent {
   language: string = 'en';
-  languages: string[] = ['en', 'de'];
+  languages: string[] = ['en', 'de', 'ru', 'es'];
 
   constructor(
     @Inject(I18NEXT_SERVICE) private i18NextService: ITranslationService
@@ -24,6 +24,7 @@ export class AppComponent {
   }
 
   changeLanguage(lang: string){
+    console.log(lang, this.i18NextService.language);
     if (lang !== this.i18NextService.language) {
       this.i18NextService.changeLanguage(lang).then(x => {
         this.updateState(lang);
