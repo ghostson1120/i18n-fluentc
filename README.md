@@ -6,19 +6,23 @@ This is an [i18next backend plugin](https://www.i18next.com/principles/plugins) 
 
 If you're not familiar with i18next and how i18next backend plugins works, please first have a look at the [i18next documentation](https://www.i18next.com/how-to/add-or-load-translations#load-using-a-backend-plugin).
 
-It will allow you to save missing keys containing both **default value** and **context information** by calling:
+<div align="center">
+  <a href="https://dashboard.fluentc.io/" target="_blank" style="margin-right: 30px;">
+    <img src="https://i.postimg.cc/9MTyH8zy/logo.png" width="240px">
+  </a>
+  <a href="https://www.i18next.com/" target="_blank">
+    <img src="https://i.postimg.cc/TPHgvt1g/i18next-logo.webp" width="240px">
+  </a>
+</div>
 
-```js
-i18next.t(key, defaultValue, tDescription);
-i18next.t(key, { defaultValue, tDescription });
-```
+<p style="margin-top: 50px;"> </p>
 
 # Obtaining the environmentId from the [dashboard](https://dashboard.fluentc.io)
 To use this fluentc-i18next-backend, it's necessary to retrieve the environmentId associated with your project.
 
 Follow these steps:
 
-- Log in to your account on the [dashboard](https://dashboard.fluentc.io).
+- Log in to your account on the [fluentc dashboard](https://dashboard.fluentc.io).
 - Navigate to the Applications page.
 - Select the environment that you wish to use with this module.
 - Locate the environmentId displayed within the environment's details section.
@@ -268,7 +272,7 @@ i18n
 ```
 
 <p align="center">
-  <a href="https://fluentc.io/" target="_blank">
+  <a href="https://dashboard.fluentc.io/" target="_blank">
     <img src="https://i.postimg.cc/9MTyH8zy/logo.png" width="240px">
   </a>
 </p>
