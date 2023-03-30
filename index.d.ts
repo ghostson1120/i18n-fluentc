@@ -33,7 +33,7 @@ interface RequestResponse {
 
 type LoadCallback = (error: any, result: any) => void;
 
-declare class I18NextFluentcBackend
+declare class i18nFluentc
   implements BackendModule<FluentcBackendOptions>
 {
   static type: "backend";
@@ -91,4 +91,4 @@ declare class I18NextFluentcBackend
   options: FluentcBackendOptions;
 }
 
-export default I18NextFluentcBackend;
+export default i18nFluentc;

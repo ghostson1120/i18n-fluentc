@@ -39,7 +39,7 @@ function isMissingOption(obj, props) {
   return props.reduce(function (mem, p) {
     if (mem) return mem;
     if (!obj || !obj[p] || typeof obj[p] !== 'string' || !obj[p].toLowerCase() === p.toLowerCase()) {
-      var err = "i18next-fluentc-backend :: got \"".concat(obj[p], "\" in options for ").concat(p, " which is invalid.");
+      var err = "i18n-fluentc :: got \"".concat(obj[p], "\" in options for ").concat(p, " which is invalid.");
       console.warn(err);
       return err;
     }
