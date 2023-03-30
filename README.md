@@ -86,7 +86,7 @@ for Deno:
 
 ```js
 import i18next from 'https://deno.land/x/i18next/index.js'
-import Backend from 'https://deno.land/x/i18next_fluentc_backend/index.js'
+import Backend from 'https://deno.land/x/i18n_fluentc/index.js'
 
 i18next.use(Backend).init(i18nextOptions);
 ```
