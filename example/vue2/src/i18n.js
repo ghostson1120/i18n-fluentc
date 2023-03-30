@@ -1,7 +1,7 @@
 import i18next from 'i18next'
 import I18NextVue from 'i18next-vue'
 import LanguageDetector from 'i18next-browser-languagedetector'
-import Backend from 'i18next-fluentc-backend';
+import Backend from 'i18n-fluentc';
 
 i18next
   .use(Backend)

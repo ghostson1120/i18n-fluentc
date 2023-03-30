@@ -9,7 +9,7 @@
     "strict": true,
     "noEmit": true,
     "baseUrl": ".",
-    "paths": { "i18next-fluentc-backend": ["./index.d.ts"] },
+    "paths": { "i18n-fluentc": ["./index.d.ts"] },
 
     "esModuleInterop": true,
     "allowSyntheticDefaultImports": true

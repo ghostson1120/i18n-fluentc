@@ -108,7 +108,7 @@ sr.reveal(`.home__data, .home__img,
 
 
 $(function() {
-    i18next.use(i18nextFluentcBackend).init({
+    i18next.use(i18nFluentc).init({
         debug: true,
         fallbackLng: 'en',
         preload: ['en', 'es'],
