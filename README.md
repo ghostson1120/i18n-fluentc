@@ -1,6 +1,6 @@
-[![Actions](https://github.com/fluentc/i18next-fluentc-backend/workflows/node/badge.svg)](https://github.com/fluentc/i18next-fluentc-backend/actions?query=workflow%3Anode)
-[![Travis](https://img.shields.io/travis/fluentc/i18next-fluentc-backend/master.svg?style=flat-square)](https://travis-ci.org/fluentc/i18next-fluentc-backend)
-[![npm version](https://img.shields.io/npm/v/i18next-fluentc-backend.svg?style=flat-square)](https://www.npmjs.com/package/i18next-fluentc-backend)
+[![Actions](https://github.com/fluentc/i18n-fluentc/workflows/node/badge.svg)](https://github.com/fluentc/i18n-fluentc/actions?query=workflow%3Anode)
+[![Travis](https://img.shields.io/travis/fluentc/i18n-fluentc/master.svg?style=flat-square)](https://travis-ci.org/fluentc/i18n-fluentc)
+[![npm version](https://img.shields.io/npm/v/i18n-fluentc.svg?style=flat-square)](https://www.npmjs.com/package/i18n-fluentc)
 
 This is an [i18next backend plugin](https://www.i18next.com/principles/plugins) to be used for [fluentc](https://fluentc.io) service.
 
@@ -43,7 +43,7 @@ Make sure you're using the correct environmentId.
 
 ```javascript
 import i18next from "i18next";
-import Fluentc from "i18next-fluentc-backend";
+import Fluentc from "i18n-fluentc";
 
 i18next.use(Fluentc).init({
   backend: {
@@ -56,27 +56,27 @@ i18next.use(Fluentc).init({
 
 # Getting started
 
-Source can be loaded via [npm](https://www.npmjs.com/package/i18next-fluentc-backend), `yarn`, `bower` or [downloaded](https://cdn.rawgit.com/fluentc/i18next-fluentc-backend/master/i18nextFluentcBackend.min.js) from this repo.
+Source can be loaded via [npm](https://www.npmjs.com/package/i18n-fluentc), `yarn`, `bower` or [downloaded](https://cdn.rawgit.com/fluentc/i18n-fluentc/master/i18nFluentc.min.js) from this repo.
 
 ```bash
 # npm package
-$ npm install i18next-fluentc-backend
+$ npm install i18n-fluentc
 
 # yarn
-$ yarn add i18next-fluentc-backend
+$ yarn add i18n-fluentc
 
 # bower
-$ bower install i18next-fluentc-backend
+$ bower install i18n-fluentc
 ```
 
 Wiring up:
 
 ```js
 import i18next from 'i18next';
-import Fluentc from 'i18next-fluentc-backend';
+import Fluentc from 'i18n-fluentc';
 // or
 const i18next = require('i18next');
-const Fluentc = require('i18next-fluentc-backend');
+const Fluentc = require('i18n-fluentc');
 
 i18next.use(Fluentc).init(i18nextOptions);
 ```
@@ -91,7 +91,7 @@ i18next.use(Backend).init(i18nextOptions);
 ```
 
 - As with all modules you can either pass the constructor function (class) to the i18next.use or a concrete instance.
-- If you don't use a module loader it will be added to `window.i18nextFluentcBackend`
+- If you don't use a module loader it will be added to `window.i18nFluentc`
 
 ## Backend Options
 
@@ -118,7 +118,7 @@ Options can be passed in:
 
 ```js
 import i18next from "i18next";
-import Fluentc from "i18next-fluentc-backend";
+import Fluentc from "i18n-fluentc";
 
 i18next.use(Fluentc).init({
   backend: options
@@ -128,14 +128,14 @@ i18next.use(Fluentc).init({
 on construction:
 
 ```js
-import Fluentc from "i18next-fluentc-backend";
+import Fluentc from "i18n-fluentc";
 const fluentc = new Fluentc(options);
 ```
 
 via calling init:
 
 ```js
-import Fluentc from "i18next-fluentc-backend";
+import Fluentc from "i18n-fluentc";
 const fluentc = new Fluentc();
 fluentc.init(options);
 ```
@@ -147,7 +147,7 @@ fluentc.init(options);
 Will return a list of all languages in your environment. Languages are available in English and in native language.
 
 ```js
-import Fluentc from "i18next-fluentc-backend";
+import Fluentc from "i18n-fluentc";
 const fluentc = new Fluentc(options);
 
 fluentc.getLanguages((err, data) => {
@@ -197,7 +197,7 @@ You will get i18next options for (same as above backend.getOptions):
 
 ```js
 import i18next from "i18next";
-import Fluentc from "i18next-fluentc-backend";
+import Fluentc from "i18n-fluentc";
 
 const fluentc = new Fluentc(
   {
@@ -218,7 +218,7 @@ Use `setI18n` to pass in the i18next instance before initializing:
 ```js
 import i18n from "i18next";
 import { initReactI18next, setI18n } from "react-i18next";
-import FluentcBackend from "i18next-fluentc-backend";
+import FluentcBackend from "i18n-fluentc";
 
 const backendOptions = {
   environmentId: "1d0aa5aa-4660-4154-b6d9-907dbef10bb3"
@@ -258,7 +258,7 @@ To properly type the backend options, you can import the `FluentcBackendOptions`
 
 ```ts
 import i18n from 'i18next'
-import FluentcBackend, { FluentcBackendOptions } from 'i18next-fluentc-backend'
+import FluentcBackend, { FluentcBackendOptions } from 'i18n-fluentc'
 
 i18n
   .use(FluentcBackend)

@@ -4,7 +4,7 @@
 
 ### 2.1.0
 
-- typescript: export the backend options type [105](https://github.com/fluentc/i18next-fluentc-backend/pull/105)
+- typescript: export the backend options type [105](https://github.com/fluentc/i18n-fluentc/pull/105)
 
 ### 2.0.2
 
@@ -12,7 +12,7 @@
 
 ### 2.0.1
 
-- fix if url starts with file:// [100](https://github.com/fluentc/i18next-fluentc-backend/issues/100)
+- fix if url starts with file:// [100](https://github.com/fluentc/i18n-fluentc/issues/100)
 
 ### 2.0.0
 
