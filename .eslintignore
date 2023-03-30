@@ -3,7 +3,7 @@
 /cjs
 /esm
 /dist
-/i18nextHttpBackend.js
-/i18nextHttpBackend.min.js
+/i18nFluentc.js
+/i18nFluentc.min.js
 /example
 /test/deno

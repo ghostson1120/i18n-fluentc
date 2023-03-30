@@ -5,7 +5,6 @@ import { Application } from 'https://deno.land/x/abc/mod.ts'
 
 // i18next in action...
 import i18next from 'https://deno.land/x/i18next/index.js'
-// import HttpBackend from 'https://deno.land/x/i18next_http_backend/index.js'
 import FluentcBackend from '../../esm/index.js'
 i18next.use(FluentcBackend).init({
   lng: 'de',
