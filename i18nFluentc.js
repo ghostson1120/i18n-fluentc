@@ -88,9 +88,9 @@ var Backend = function () {
         this.isAddOrUpdateAllowed = typeof this.options.allowedAddOrUpdateHosts === 'function' ? this.options.allowedAddOrUpdateHosts(hostname) : this.options.allowedAddOrUpdateHosts.indexOf(hostname) > -1;
         if (services && services.logger && (allOptions.saveMissing || allOptions.updateMissing)) {
           if (!this.isAddOrUpdateAllowed) {
-            services.logger.warn(typeof this.options.allowedAddOrUpdateHosts === 'function' ? "fluentc-backend: will not save or update missings because allowedAddOrUpdateHosts returned false for the host \"".concat(hostname, "\".") : "fluentc-backend: will not save or update missings because the host \"".concat(hostname, "\" was not in the list of allowedAddOrUpdateHosts: ").concat(this.options.allowedAddOrUpdateHosts.join(', '), " (matches need to be exact)."));
+            services.logger.warn(typeof this.options.allowedAddOrUpdateHosts === 'function' ? "i18n-fluentc: will not save or update missings because allowedAddOrUpdateHosts returned false for the host \"".concat(hostname, "\".") : "i18n-fluentc: will not save or update missings because the host \"".concat(hostname, "\" was not in the list of allowedAddOrUpdateHosts: ").concat(this.options.allowedAddOrUpdateHosts.join(', '), " (matches need to be exact)."));
           } else if (hostname !== 'localhost') {
-            services.logger.warn("fluentc-backend: you are using the save or update missings feature from this host \"".concat(hostname, "\".\nMake sure you will not use it in production!"));
+            services.logger.warn("i18n-fluentc: you are using the save or update missings feature from this host \"".concat(hostname, "\".\nMake sure you will not use it in production!"));
           }
         }
       } else {
