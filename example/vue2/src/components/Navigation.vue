@@ -125,7 +125,7 @@ export default {
       ]
     },
     lang () {
-      return this.$i18next.language;
+      return this.$i18next.language || 'en';
     }
   },
   methods: {

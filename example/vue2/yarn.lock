@@ -4702,21 +4702,21 @@ human-signals@^1.1.1:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-1.1.1.tgz#c5b1cd14f50aeae09ab6c59fe63ba3395fe4dfa3"
   integrity sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
 
+i18n-fluentc@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/i18n-fluentc/-/i18n-fluentc-1.0.0.tgz#57d9bc678462d0875929acee216a00af9f2d859d"
+  integrity sha512-xp+VgANMzs4MKeMhHfGk9qDej+RLj2scBBu9XxqN1wn1dnPwkL9EcGhQaZznGcg3F7SWqpUBQj66uYyulQOV7g==
+  dependencies:
+    cross-fetch "3.1.5"
+    graphql "^16.6.0"
+    graphql-tag "^2.12.6"
+
 i18next-browser-languagedetector@^7.0.1:
   version "7.0.1"
   resolved "https://registry.yarnpkg.com/i18next-browser-languagedetector/-/i18next-browser-languagedetector-7.0.1.tgz#ead34592edc96c6c3a618a51cb57ad027c5b5d87"
   integrity sha512-Pa5kFwaczXJAeHE56CHG2aWzFBMJNUNghf0Pm4SwSrEMps/PTKqW90EYWlIvhuYStf3Sn1K0vw+gH3+TLdkH1g==
   dependencies:
     "@babel/runtime" "^7.19.4"
-
-i18next-fluentc-backend@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/i18next-fluentc-backend/-/i18next-fluentc-backend-1.0.0.tgz#98255abbfb2125686546fa5cf51c3da331a19745"
-  integrity sha512-zBMmxqtNpfEXPfoXBZM1PGadrvA2Z9u3N+A6LU1DfJpSoOkmT08LBC7QDh0oQX2yj17+p6CrgzO4r8XgZ7rM1w==
-  dependencies:
-    cross-fetch "3.1.5"
-    graphql "^16.6.0"
-    graphql-tag "^2.12.6"
 
 i18next-vue@^1.1.0:
   version "1.1.0"
