@@ -21,7 +21,7 @@ const Navbar: React.FC = () => {
     }
 
     loadLanguages();
-  }, [i18n])
+  }, [loaded, i18n])
 
   const changeLanguage = (e: any) => {
     i18n.changeLanguage(e.target.value);

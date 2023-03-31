@@ -126,7 +126,7 @@ export default {
     },
     lang () {
       const lang = this.$i18next.language;
-      if(this.languages.indexOf(itm => itm.code === lang) > -1) return lang;
+      if(this.languages.findIndex(itm => itm.code === lang) > -1) return lang;
       return 'en';
     }
   },

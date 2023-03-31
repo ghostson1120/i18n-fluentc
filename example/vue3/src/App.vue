@@ -40,7 +40,9 @@ export default {
 		}
 
 		const lang = computed(function() {
-			return i18next.language;
+      const lang = i18next.language;
+      if(languages.value.findIndex(itm => itm.code === lang) > -1) return lang;
+      return 'en';
 		});
 
 		const loadLanguages = async () => {

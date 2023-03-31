@@ -122,6 +122,7 @@ $(function() {
         const langs = await i18next.services.backendConnector.backend.getLanguages();
         if (langs && langs.length) {
             $('#lang-switch').html(langs.map(lang => `<option value="${lang.code}">${lang.localLabel}</option>`).join(''));
+            $('#lang-switch').val("en");
         }
     });
 
