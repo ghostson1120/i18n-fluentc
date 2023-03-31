@@ -1,4 +1,4 @@
-const FluentcBackend = require('../../cjs')
+const FluentcBackend = require('i18n-fluentc')
 const ChainedBackend= require('i18next-chained-backend').default
 const LocalStorageBackend = require('i18next-localstorage-backend').default
 
