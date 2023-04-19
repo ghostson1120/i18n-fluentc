@@ -35,7 +35,7 @@ const Navbar: React.FC = () => {
         alt="logo"
       />
       <h1><Trans i18nKey="landmarks">landmarks</Trans></h1>
-      <select onChange={changeLanguage}>
+      <select value={i18n.language} onChange={changeLanguage}>
         {languages.map(lang => (<option key={lang.code} value={lang.code}>{lang.localLabel || lang.label}</option>))}
       </select>
     </nav>

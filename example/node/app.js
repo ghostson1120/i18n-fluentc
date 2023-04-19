@@ -22,5 +22,5 @@ i18next.use(FluentcBackend).init({
   console.log('[it]', t('nokey', { lng: 'it' }))
 
   const backend = i18next.services.backendConnector.backend;
-  console.log(await backend.getLanguages());
+  // console.log(await backend.getLanguages());
 })

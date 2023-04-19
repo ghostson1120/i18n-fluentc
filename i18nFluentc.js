@@ -37,7 +37,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 function _toPropertyKey(arg) { var key = _toPrimitive(arg, "string"); return _typeof(key) === "symbol" ? key : String(key); }
 function _toPrimitive(input, hint) { if (_typeof(input) !== "object" || input === null) return input; var prim = input[Symbol.toPrimitive]; if (prim !== undefined) { var res = prim.call(input, hint || "default"); if (_typeof(res) !== "object") return res; throw new TypeError("@@toPrimitive must return a primitive value."); } return (hint === "string" ? String : Number)(input); }
 var getDefaults = function getDefaults() {
+  var store = null;
+  try {
+    store = window.localStorage;
+  } catch (ex) {
+    console.log('Cache not working');
+  }
   return {
+    store: store,
     apiPath: 'https://api.fluentc.io/graphql',
     apiKey: 'da2-wtkl5bpofjbu5ex5iugu4o2mbm',
     referenceLng: 'en',
@@ -161,7 +168,6 @@ var Backend = function () {
             return clb(e);
           });
         }
-        console.log(ret);
         _this3.somethingLoaded = true;
         var clbs = _this3.getLanguagesCalls;
         _this3.getLanguagesCalls = [];
@@ -181,21 +187,50 @@ var Backend = function () {
         logger = _ref2.logger;
       var isMissing = (0, _utils.isMissingOption)(this.options, ['environmentId']);
       if (isMissing) return callback(new Error(isMissing), false);
-      this.loadUrl({}, (0, _query.getContent)(this.options.environmentId, language), function (err, ret, info) {
-        if (!_this4.somethingLoaded) {
-          if (info && info.resourceNotExisting) {
-            logger.error('Environment not existing');
-          } else {
-            _this4.somethingLoaded = true;
+      var readFromService = new Promise(function (resolve) {
+        _this4.loadUrl({}, (0, _query.getContent)(_this4.options.environmentId, language), function (err, ret, info) {
+          if (!_this4.somethingLoaded) {
+            if (info && info.resourceNotExisting) {
+              logger.error('Environment not existing');
+            } else {
+              _this4.somethingLoaded = true;
+            }
+          }
+          var objectRet = {};
+          if (ret && ret.length) {
+            for (var i = 0; i < ret.length; i++) {
+              objectRet[ret[i].key] = ret[i].value;
+            }
+          }
+          (0, _utils.saveCacheData)(_this4.options.store, {
+            lang: language,
+            data: objectRet
+          });
+          resolve({
+            err: err,
+            data: objectRet
+          });
+        });
+      });
+      var readFromStore = new Promise(function (resolve) {
+        if (!_this4.options.store) return;
+        var cacheData = (0, _utils.getCacheData)(_this4.options.store);
+        if (cacheData) {
+          var data = cacheData.find(function (c) {
+            return c.lang === language;
+          });
+          if (data) {
+            resolve({
+              err: null,
+              data: data.data
+            });
           }
         }
-        var objectRet = {};
-        if (ret && ret.length) {
-          for (var i = 0; i < ret.length; i++) {
-            objectRet[ret[i].key] = ret[i].value;
-          }
-        }
-        callback(err, objectRet);
+      });
+      Promise.race([readFromService, readFromStore]).then(function (_ref3) {
+        var err = _ref3.err,
+          data = _ref3.data;
+        callback(err, data);
       });
     }
   }, {
@@ -408,8 +443,10 @@ Object.defineProperty(exports, "__esModule", {
 });
 exports.defaults = defaults;
 exports.defer = defer;
+exports.getCacheData = getCacheData;
 exports.hasXMLHttpRequest = hasXMLHttpRequest;
 exports.isMissingOption = isMissingOption;
+exports.saveCacheData = saveCacheData;
 function _typeof(obj) { "@babel/helpers - typeof"; return _typeof = "function" == typeof Symbol && "symbol" == typeof Symbol.iterator ? function (obj) { return typeof obj; } : function (obj) { return obj && "function" == typeof Symbol && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }, _typeof(obj); }
 var arr = [];
 var each = arr.forEach;
@@ -448,6 +485,26 @@ function isMissingOption(obj, props) {
     }
     return false;
   }, false);
+}
+function getCacheData(store) {
+  if (!store) return null;
+  var data = store.getItem('fluentc_cache');
+  if (!data) return [];
+  try {
+    var ret = JSON.parse(data) || [];
+    return ret;
+  } catch (ex) {
+    return [];
+  }
+}
+function saveCacheData(store, data) {
+  if (!store) return;
+  var cache = getCacheData(store);
+  var idx = cache.findIndex(function (c) {
+    return c.lang === data.lang;
+  });
+  if (idx === -1) cache.push(data);else cache[idx] = data;
+  store.setItem('fluentc_cache', JSON.stringify(cache));
 }
 },{}],6:[function(require,module,exports){
 

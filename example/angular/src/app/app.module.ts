@@ -2,7 +2,7 @@ import { APP_INITIALIZER, NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { I18NEXT_SERVICE, I18NextModule, I18NextLoadResult, ITranslationService, defaultInterpolationFormat  } from 'angular-i18next';
 import LanguageDetector from 'i18next-browser-languagedetector';
-import FluentCApi from '../../../../';
+import FluentCApi from 'i18n-fluentc';
 
 import { AppComponent } from './app.component';
 
