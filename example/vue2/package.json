@@ -10,7 +10,7 @@
         "core-js": "^3.8.2",
         "deepai": "^1.0.17",
         "firebase": "^7.24.0",
-        "i18n-fluentc": "^1.0.0",
+        "i18n-fluentc": "^1.0.2",
         "i18next": "^22.4.10",
         "i18next-browser-languagedetector": "^7.0.1",
         "i18next-vue": "^1.1.0",
