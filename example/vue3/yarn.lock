@@ -4656,10 +4656,10 @@ human-signals@^1.1.1:
   resolved "https://registry.yarnpkg.com/human-signals/-/human-signals-1.1.1.tgz#c5b1cd14f50aeae09ab6c59fe63ba3395fe4dfa3"
   integrity sha512-SEQu7vl8KjNL2eoGBLF3+wAjpsNfA9XMlXAYj/3EdaNfAlxKthD1xjEQfGOUhllCGGJVNY34bRr6lPINhNjyZw==
 
-i18n-fluentc@^1.0.0:
-  version "1.0.0"
-  resolved "https://registry.yarnpkg.com/i18n-fluentc/-/i18n-fluentc-1.0.0.tgz#57d9bc678462d0875929acee216a00af9f2d859d"
-  integrity sha512-xp+VgANMzs4MKeMhHfGk9qDej+RLj2scBBu9XxqN1wn1dnPwkL9EcGhQaZznGcg3F7SWqpUBQj66uYyulQOV7g==
+i18n-fluentc@^1.0.2:
+  version "1.0.2"
+  resolved "https://registry.yarnpkg.com/i18n-fluentc/-/i18n-fluentc-1.0.2.tgz#e97e645ad86c1e57ed1ac1f93623e6eaae8ba6c8"
+  integrity sha512-6Nlnhs2SHfI+ZFzKp+Y+vO9K2guU++p1uzMEMrR7pJ+vHNJJ5BcDFIUGQoV6jfsd2tBGWtTG79vEGCVThsSx+Q==
   dependencies:
     cross-fetch "3.1.5"
     graphql "^16.6.0"
